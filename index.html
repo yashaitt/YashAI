@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yash AI - Your Academic Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #7c3aed;
+            --bg-color: #f7f9fb;
+            --ai-message-bg: #ffffff;
+            --ai-border-color: #e0e7ff;
+            --user-message-bg: #6366f1;
+            --text-color: #1f2937;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- SIDE IMAGE (RIGHT SIDE) --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 320px;
+            height: 100%;
+            background: url('1000017504.png') left center/cover no-repeat;
+            opacity: 0.4125; /* Final Opacity */
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Robotic AI grid overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(90deg, rgba(0,255,255,0.06) 1px, transparent 1px),
+                linear-gradient(rgba(0,255,255,0.06) 1px, transparent 1px),
+                radial-gradient(circle at 20% 30%, rgba(0,150,255,0.12), transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(0,150,255,0.12), transparent 60%);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header Title Styling and Animation */
+        .header-title-anim {
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+            animation: text-pulse 3s infinite ease-in-out;
+        }
+        @keyframes text-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.01); opacity: 0.95; }
+        }
+
+        /* Chat Container Lift on Hover */
+        .chat-container-wrapper {
+            width: 100%;
+            max-width: 520px; /* Crucial for mobile scaling */
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .chat-container-wrapper:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+        }
+
+        .header-gradient {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        .send-button-bg {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            transition: 0.3s ease; 
+        }
+        .send-button-bg:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.5);
+        }
+        .chat-container {
+            height: 95vh;
+            max-height: 850px;
+        }
+
+        /* AI Message Bubble Hover */
+        .ai-bubble-interactive {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s;
+        }
+        .ai-bubble-interactive:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fcfdff;
+        }
+        
+        /* Smooth input focus */
+        #user-input {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #user-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+            outline: none;
+        }
+
+        /* Message Bubble Transitions */
+        .message-fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Style for Markdown content */
+        .markdown-content h2 {
+            font-weight: 800;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 4px;
+        }
+        .markdown-content pre {
+            background-color: #e0e7ff; 
+            padding: 0.75rem;
+            border-radius: 0.75rem; 
+        }
+        /* Typing Dots Animation */
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-left: 2px;
+            border-radius: 50%;
+            background-color: #6366f1;
+            animation: dot-flicker 1.2s infinite ease-in-out;
+        }
+        .dot:nth-child(2) { animation-delay: 0.3s; }
+        .dot:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes dot-flicker {
+            0%, 80%, 100% { opacity: 0; transform: scale(0.8); }
+            40% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-start p-4">
+
+    <div class="chat-container-wrapper">
+        <div class="w-full bg-white shadow-3xl rounded-3xl overflow-hidden flex flex-col chat-container border-4 border-white">
+            <header class="header-gradient text-white p-4 sm:p-5 flex flex-col items-center justify-center shadow-lg">
+                <h1 class="text-3xl font-extrabold tracking-tight flex items-center header-title-anim">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-7 h-7 mr-2 animate-pulse">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5v-7.5m-6 7.5a6 6 0 0 1 6-6v-1.5m-6 7.5h12" />
+                    </svg>
+                    Yash AI
+                </h1>
+                <span class="text-sm font-medium opacity-80 mt-1">Made by Yash Dubey</span>
+            </header>
+
+            <div id="response-area" class="response-area flex-1 p-4 sm:p-6 overflow-y-auto space-y-6 bg-gray-100">
+                <div class="flex justify-start message-fade-in">
+                    <div class="bg-indigo-50 text-indigo-800 p-5 rounded-3xl rounded-tl-none max-w-[90%] shadow-lg border-2 border-indigo-100 ai-bubble-interactive">
+                        <p class="font-bold mb-2 text-lg">Welcome! I'm Yash AI.</p>
+                        <p class="text-base">Ask me anything! I specialize in detailed explanations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-gray-200 bg-white">
+                <div id="status-message" class="pb-2 hidden min-h-[30px] flex items-center">
+                    <div id="loading-spinner" class="flex items-center space-x-2 text-indigo-600">
+                        <span class="font-medium text-sm">Yash AI is compiling...</span>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div id="error-alert" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-2 rounded-lg text-sm font-medium w-full" role="alert">
+                        Connection failed. Please ensure the app is running via a web server (http:// or https://).
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3 items-center">
+                    <textarea id="user-input" class="flex-1 p-3 border-2 border-gray-300 rounded-xl leading-snug" rows="2" placeholder="Ask me anything..."></textarea>
+                    
+                    <button id="send-button" onclick="sendMessage()" class="send-button-bg text-white p-3 rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 h-11 w-11">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path d="M3.105 2.289a.75.75 0 0 0-.826.805l1.378 9.183a.75.75 0 0 0 1.492.05l.939-2.735 6.697 4.54a.75.75 0 0 0 1.109-.912L5.808 3.32a.75.75 0 0 0-.693-.971Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- Gemini API Configuration (RESTORED) ---
+    const MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
+    const API_KEY = ""; 
+    const API_URL_BASE = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+    
+    // Yash AI Educational Persona - Core Instruction 
+    const SYSTEM_PROMPT = `Act as Yash AI, a world-class, highly patient, and friendly educational tutor and assistant. Your primary goal is to explain concepts to students in detail, ensuring clarity, structure, and depth.
+1. Use clear, encouraging, and supportive language.
+2. Structure your answers using clear Markdown headings (##), lists, and bold text for key terms.
+3. Always start by acknowledging the user's question warmly and directly.
+4. When explaining a complex topic, break it down into simple, logical steps or components.
+5. Provide detailed, comprehensive answers suitable for a student seeking in-depth understanding.`;
+
+    // --- DOM Elements ---
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    const responseArea = document.getElementById('response-area');
+    const statusMessage = document.getElementById('status-message');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const errorAlert = document.getElementById('error-alert');
+
+    // --- Helper Functions ---
+    function markdownToHtml(markdown) {
+        let html = markdown.replace(/^##\s*(.*)$/gm, '<h2>$1</h2>');
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/```(.*?)\n([\s\S]*?)```/g, '<pre>$2</pre>');
+        
+        html = html.replace(/^\s*[\-\*]\s*(.*)$/gm, '<li>$1</li>'); 
+        html = html.replace(/^\s*\d+\.\s*(.*)$/gm, '<li>$1</li>'); 
+
+        html = html.replace(/(<li>.*<\/li>\s*)+/gs, (match) => {
+            const isOrdered = match.trim().startsWith('1.') || (match.includes('1.') && !match.includes('*') && !match.includes('-'));
+            const listItems = match.match(/<li>.*?<\/li>/gs);
+            if (!listItems) return match; 
+            
+            const listContent = listItems.join('');
+            if (isOrdered) {
+                return `<ol>${listContent}</ol>`;
+            }
+            return `<ul>${listContent}</ul>`;
+        });
+        
+        html = html.split('\n\n').map(p => {
+            if (p.trim() === '') return '';
+            if (!p.startsWith('<h') && !p.startsWith('<ul') && !p.startsWith('<ol') && !p.startsWith('<pre')) {
+                const trimmedP = p.trim();
+                if (trimmedP.length > 0) {
+                    return `<p>${trimmedP.replace(/\n/g, '<br>')}</p>`;
+                }
+                return '';
+            }
+            return p;
+        }).join('');
+        
+        html = html.replace(/<br><\/h2>/g, '</h2>').replace(/<br><\/li>/g, '</li>').replace(/<br><\/pre>/g, '</pre>');
+
+        return html;
+    }
+
+    function createMessageElement(isUser, content) {
+        const container = document.createElement('div');
+        container.className = `flex ${isUser ? 'justify-end' : 'justify-start'} message-fade-in`;
+
+        const bubble = document.createElement('div');
+        
+        if (isUser) {
+            bubble.className = 'bg-indigo-500 text-white p-3 rounded-2xl rounded-br-none max-w-[85%] shadow-lg text-base';
+            bubble.textContent = content;
+        } else {
+            // AI Bubble (with hover animation class)
+            bubble.className = 'bg-white text-gray-800 p-4 rounded-3xl rounded-tl-none max-w-[85%] shadow-xl text-sm markdown-content border border-gray-200 ai-bubble-interactive';
+            bubble.innerHTML = markdownToHtml(content);
+        }
+
+        container.appendChild(bubble);
+        responseArea.appendChild(container);
+        responseArea.scrollTop = responseArea.scrollHeight;
+    }
+    
+    function createSourcesElement(sources) {
+        if (sources.length === 0) return;
+
+        const sourcesContainer = document.createElement('div');
+        sourcesContainer.className = 'text-[10px] text-gray-500 pt-2 border-t border-gray-300 mt-3';
+        sourcesContainer.innerHTML = '<strong>Grounded Sources:</strong><br>';
+        
+        sources.slice(0, 3).forEach((source, index) => { 
+            const link = document.createElement('a');
+            link.href = source.uri;
+            link.target = '_blank';
+            link.className = 'block truncate hover:text-indigo-600 transition duration-150';
+            link.textContent = `${index + 1}. ${source.title}`;
+            sourcesContainer.appendChild(link);
+        });
+
+        const lastAiMessage = responseArea.lastChild.querySelector('.markdown-content');
+        if (lastAiMessage) {
+            lastAiMessage.appendChild(sourcesContainer);
+        }
+    }
+
+
+    function setUIState(isLoading) {
+        sendButton.disabled = isLoading;
+        userInput.disabled = isLoading;
+        statusMessage.classList.toggle('hidden', !isLoading && errorAlert.classList.contains('hidden'));
+        loadingSpinner.classList.toggle('hidden', !isLoading);
+
+        if (isLoading) {
+            if (document.activeElement === userInput) {
+                userInput.blur(); 
+            }
+            userInput.value = ''; 
+            errorAlert.classList.add('hidden'); 
+        }
+    }
+
+    // --- Main Send Message Logic ---
+    async function sendMessage() {
+        const query = userInput.value.trim();
+        if (query === "") return;
+
+        createMessageElement(true, query);
+        setUIState(true);
+
+        const payload = {
+            contents: [{ parts: [{ text: query }] }],
+            tools: [{ "google_search": {} }],
+            systemInstruction: {
+                parts: [{ text: SYSTEM_PROMPT }]
+            },
+        };
+
+        try {
+            const result = await callApi(payload);
+
+            const candidate = result.candidates?.[0];
+            let generatedText = "I apologize, but I couldn't generate a response. Please try again.";
+            let sources = [];
+
+            if (candidate && candidate.content?.parts?.[0]?.text) {
+                generatedText = candidate.content.parts[0].text;
+
+                const groundingMetadata = candidate.groundingMetadata;
+                if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                    sources = groundingMetadata.groundingAttributions
+                        .map(attribution => ({
+                            uri: attribution.web?.uri,
+                            title: attribution.web?.title,
+                        }))
+                        .filter(source => source.uri && source.title);
+                }
+            }
+
+            createMessageElement(false, generatedText);
+            createSourcesElement(sources);
+
+        } catch (e) {
+            console.error("API Error:", e);
+            
+            if (e.message.includes("Local file system detected")) {
+                errorAlert.textContent = "Oops! Connection failed. Please ensure the app is hosted on a web server (http:// or https://) and try again.";
+            } else {
+                errorAlert.textContent = `[ERROR: ${e.message.substring(0, 50)}]. Review API key and console logs.`;
+            }
+            errorAlert.classList.remove('hidden');
+
+        } finally {
+            setUIState(false);
+        }
+    }
+
+    // --- API Call with Exponential Backoff (RESTORED) ---
+    async function callApi(payload) {
+        const maxRetries = 5;
+        let delay = 1000;
+        
+        for (let i = 0; i < maxRetries; i++) {
+            try {
+                if (window.location.protocol === 'file:') {
+                    throw new Error("Local file system detected. Network connection is required.");
+                }
+                
+                const response = await fetch(API_URL_BASE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    return await response.json();
+                } else if (response.status === 429 && i < maxRetries - 1) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                } else {
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+            } catch (error) {
+                if (error.message.includes("Local file system")) {
+                    throw error; 
+                }
+                if (i === maxRetries - 1) {
+                    throw error;
+                }
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2;
+            }
+        }
+        throw new Error("API call failed after multiple retries.");
+    }
+    
+    // The event listener to send the message on Enter keypress
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+</script>
+
+</body>
+</html>
