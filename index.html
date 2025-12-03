@@ -17,7 +17,15 @@
             --user-message-bg: #6366f1;
             --text-color: #1f2937;
         }
-
+/* Custom CSS to style the Creator Avatar */
+#creator-avatar {
+    position: fixed; /* Keeps the image in place even when scrolling */
+    bottom: 0;
+    right: 0;
+    width: 200px; /* Adjust size as needed, e.g., 200px */
+    opacity: 0.65; /* Sets visibility to 65% */
+    z-index: 5; /* Ensures the image appears above the chat boxes */
+}
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
@@ -432,10 +440,11 @@
         }
     });
 </script>
-
+<img id="creator-avatar" src="boy_avatar.png" alt="Creator Avatar" class="max-w-xs">
 </body>
 
 </html>
+
 
 
 
