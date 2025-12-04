@@ -21,7 +21,6 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            /* Centering the chat box perfectly */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -43,15 +42,16 @@
             z-index: 0;
         }
 
-        /* --- FIXED: AI Image inside Chat Box Background --- */
+        /* --- FIXED: AI Image inside Chat Box Background with Contain and Centering --- */
         #chat-fixed-bg {
             position: absolute; 
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.55; /* Adjusted to 55% visibility as requested */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust for perfect centering */
+            max-width: 100%; 
+            max-height: 100%;
+            object-fit: contain; /* Ensures the whole image fits without cropping */
+            opacity: 0.55; /* 55% visibility */
             pointer-events: none;
             z-index: 1; /* Lowest functional layer */
         }
@@ -64,7 +64,7 @@
             overflow: hidden; 
         }
         
-        /* --- FIX: Ensure Header is above the image (z-index: 1) --- */
+        /* Ensure Header is above the image (z-index: 1) */
         header {
             position: relative; 
             z-index: 5; 
@@ -77,11 +77,10 @@
             background-color: transparent !important; 
         }
 
-        /* --- FIX: Ensure Input/Send Button Area is above the image --- */
+        /* Ensure Input/Send Button Area is above the image (z-index: 5) */
         .input-footer {
             position: relative;
             z-index: 5;
-            /* Added background to ensure input area is fully opaque */
             background-color: white; 
         }
 
