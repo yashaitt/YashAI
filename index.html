@@ -212,6 +212,51 @@
     position: relative !important;
     z-index: 10 !important;
 }
+/* CENTER THE CHAT BOX */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* CHAT OUTER WRAPPER */
+.chat-container-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* FIXED IMAGE INSIDE CHAT BOX */
+#chat-fixed-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.65;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* CHAT CONTENT ABOVE IMAGE */
+#response-area {
+    position: relative;
+    z-index: 5;
+}
+
+#response-area * {
+    position: relative;
+    z-index: 10;
+}
+
+/* CHAT CONTAINER MUST BE RELATIVE */
+.chat-container {
+    position: relative;
+    overflow: hidden;
+}
 
 
 
@@ -223,6 +268,9 @@
 
     <div class="chat-container-wrapper">
         <div class="w-full bg-white shadow-3xl rounded-3xl overflow-hidden flex flex-col chat-container border-4 border-white">
+            <!-- FIXED IMAGE INSIDE CHAT -->
+<img id="chat-fixed-bg" src="./ai_bg.png" alt="">
+
             <header class="header-gradient text-white p-4 sm:p-5 flex flex-col items-center justify-center shadow-lg">
                 <h1 class="text-3xl font-extrabold tracking-tight flex items-center header-title-anim">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-7 h-7 mr-2 animate-pulse">
@@ -540,6 +588,7 @@ Attribute all help only to **Yash AI**.
 </body>
 
 </html>
+
 
 
 
