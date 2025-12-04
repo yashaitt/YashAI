@@ -191,6 +191,12 @@
         pointer-events: none;
         z-index: 0;
     }
+/* Ensure chat messages appear ABOVE the background image */
+#response-area * {
+    position: relative;
+    z-index: 1;
+}
+
 
 </style>
 
@@ -516,6 +522,7 @@ Attribute all help only to **Yash AI**.
 </body>
 
 </html>
+
 
 
 
