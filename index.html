@@ -17,16 +17,14 @@
             --text-color: #1f2937;
         }
 
-        /* --- REMOVED: #creator-avatar and its related CSS --- */
-
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             /* Centering the chat box perfectly */
             display: flex;
-            justify-content: center; /* Centers horizontally */
-            align-items: center;     /* Centers vertically */
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -34,7 +32,7 @@
             overflow-x: hidden;
         }
 
-        /* --- RESTORED: Robotic AI grid overlay (the blue pattern) --- */
+        /* Robotic AI grid overlay (KEPT) */
         body::after {
             content: "";
             position: fixed;
@@ -43,6 +41,24 @@
             background-size: 60px 60px;
             pointer-events: none;
             z-index: 0;
+        }
+
+        /* --- NEW/RESTORED: AI Image inside Chat Box Background --- */
+        #chat-fixed-bg {
+            position: absolute; /* Positioned relative to the chat-container */
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.65; /* 65% visibility */
+            pointer-events: none;
+            z-index: 1; /* Ensures it is behind the chat messages */
+        }
+        /* Message area z-index to ensure messages are on top of the image */
+        #response-area {
+            position: relative;
+            z-index: 5; 
         }
 
         /* Header Title Styling and Animation */
@@ -56,7 +72,7 @@
             50% { transform: scale(1.01); opacity: 0.95; }
         }
 
-        /* Chat Container Lift on Hover */
+        /* Chat Container Setup */
         .chat-container-wrapper {
             width: 100%;
             max-width: 520px;
@@ -81,6 +97,8 @@
             box-shadow: 0 6px 15px rgba(79, 70, 229, 0.5);
         }
         .chat-container {
+            /* Crucial: set to relative for absolute children (#chat-fixed-bg) */
+            position: relative; 
             height: 90vh; 
             max-height: 850px;
             overflow: hidden; 
@@ -152,24 +170,14 @@
             40% { opacity: 1; transform: scale(1); }
         }
 
-        /* FINAL LAYOUT CLEANUP */
-        .chat-container-wrapper {
-            max-width: 500px;
-        }
-        .chat-container {
-            position: relative; 
-            overflow: hidden;
-            width: 100%;
-        }
-        
-        /* --- REMOVED: All body::before and #chat-fixed-bg CSS rules --- */
-
     </style>
 </head>
 <body class="flex items-center justify-center p-4">
     <div class="chat-container-wrapper">
         <div class="w-full bg-white shadow-3xl rounded-3xl overflow-hidden flex flex-col chat-container border-4 border-white">
             
+            <img id="chat-fixed-bg" src="./ai_bg.png" alt="Yash AI Background Image">
+
             <header class="header-gradient text-white p-4 sm:p-5 flex flex-col items-center justify-center shadow-lg">
                 <h1 class="text-3xl font-extrabold tracking-tight flex items-center header-title-anim">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-7 h-7 mr-2 animate-pulse">
@@ -214,7 +222,7 @@
     </div>
     
     <script>
-        // --- Code Snippets (kept for functionality) --- 
+        // --- Gemini API Configuration --- 
         const MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
         const API_URL_BASE = "https://yashai.yashdub2007.workers.dev"; 
 
