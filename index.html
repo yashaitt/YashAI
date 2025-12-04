@@ -173,48 +173,46 @@
         40% { opacity: 1; transform: scale(1); }
     }
 
-/* ----------------------------- */
-/* FINAL FIXED RIGHT-SIDE IMAGE  */
-/* ----------------------------- */
-
-/* Make the whole page full height */
-body {
-    height: 100vh !important;
-    margin: 0;
-    padding: 0;
-}
-
-/* Make the entire chat container full height */
+/* FINAL OVERRIDE: FIX WHITE GAP AT BOTTOM AND PUSH IMAGE TO TOP */
 .chat-container-wrapper {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
+    position: relative !important;
+    height: 100vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
 }
 
-/* The fixed background image on the right side */
-#chat-fixed-bg {
-    position: absolute;
-    top: 0;               /* Stick to top */
-    right: 0;             /* Stay on right */
-    width: 50%;           /* Half screen */
-    height: 100%;         /* Full height */
-    object-fit: cover;    /* Cover entire height */
-    opacity: 0.65;        /* Visibility */
-    pointer-events: none; /* Click-through */
-    z-index: 0;           /* Behind chat */
+/* Remove extra spacing INSIDE main container */
+.chat-container {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
 }
 
-/* Ensure chat messages always appear above image */
+/* Remove spacing from response-area */
 #response-area {
-    position: relative;
-    z-index: 5;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
 }
 
-#response-area * {
-    position: relative;
-    z-index: 10;
+/* FIXED FULL-HEIGHT RIGHT-SIDE IMAGE */
+#chat-fixed-bg {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 50% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    opacity: 0.65 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
 }
+
+/* CHAT MESSAGES ABOVE IMAGE */
+#response-area * {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
 
 
 </style>
@@ -542,6 +540,7 @@ Attribute all help only to **Yash AI**.
 </body>
 
 </html>
+
 
 
 
