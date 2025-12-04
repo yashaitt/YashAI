@@ -173,42 +173,49 @@
         40% { opacity: 1; transform: scale(1); }
     }
 
-/* ===== FINAL: Right-side half-image inside chat box (visible + behind text) ===== */
-     /* FIXED RIGHT-SIDE IMAGE THAT DOES NOT MOVE WITH CHAT */
-#chat-fixed-bg {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    object-fit: contain;
-    opacity: 0.65;
-    pointer-events: none;
-    z-index: 0;
+/* ----------------------------- */
+/* FINAL FIXED RIGHT-SIDE IMAGE  */
+/* ----------------------------- */
+
+/* Make the whole page full height */
+body {
+    height: 100vh !important;
+    margin: 0;
+    padding: 0;
 }
 
-/* ENSURE CHAT MESSAGES STAY ABOVE THE IMAGE */
+/* Make the entire chat container full height */
+.chat-container-wrapper {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* The fixed background image on the right side */
+#chat-fixed-bg {
+    position: absolute;
+    top: 0;               /* Stick to top */
+    right: 0;             /* Stay on right */
+    width: 50%;           /* Half screen */
+    height: 100%;         /* Full height */
+    object-fit: cover;    /* Cover entire height */
+    opacity: 0.65;        /* Visibility */
+    pointer-events: none; /* Click-through */
+    z-index: 0;           /* Behind chat */
+}
+
+/* Ensure chat messages always appear above image */
 #response-area {
     position: relative;
     z-index: 5;
 }
 
-#response-area > * {
+#response-area * {
     position: relative;
     z-index: 10;
 }
 
-/* ENSURE OUTER CHAT WRAPPERS ALLOW ABSOLUTE POSITIONING */
-.chat-container-wrapper,
-.chat-container {
-    position: relative;
-}
-/* Make the whole chat container fill the full screen height */
-.chat-container-wrapper {
-    position: relative;
-    height: 100vh;      /* Full screen height */
-    overflow: hidden;   /* Keep background image contained */
-}
 
 </style>
 
@@ -535,6 +542,7 @@ Attribute all help only to **Yash AI**.
 </body>
 
 </html>
+
 
 
 
