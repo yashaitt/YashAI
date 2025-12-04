@@ -42,15 +42,15 @@
             z-index: 0;
         }
 
-        /* --- FIXED: AI Image inside Chat Box Background with Contain and Centering --- */
+        /* --- FIXED: AI Image Size in Chat Box (80% and Centered) --- */
         #chat-fixed-bg {
             position: absolute; 
             top: 50%; /* Center vertically */
             left: 50%; /* Center horizontally */
             transform: translate(-50%, -50%); /* Adjust for perfect centering */
-            max-width: 100%; 
-            max-height: 100%;
-            object-fit: contain; /* Ensures the whole image fits without cropping */
+            width: 80%;    /* NEW: Set width to 80% of container */
+            height: 80%;   /* NEW: Set height to 80% of container */
+            object-fit: contain; /* Ensures the whole image fits within 80% bounds without cropping */
             opacity: 0.55; /* 55% visibility */
             pointer-events: none;
             z-index: 1; /* Lowest functional layer */
@@ -64,7 +64,7 @@
             overflow: hidden; 
         }
         
-        /* Ensure Header is above the image (z-index: 1) */
+        /* Ensure Header is above the image (z-index: 5) */
         header {
             position: relative; 
             z-index: 5; 
