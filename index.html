@@ -42,15 +42,15 @@
             z-index: 0;
         }
 
-        /* --- FIXED: AI Image positioned right and vertically centered (80% size) --- */
+        /* --- FIXED: AI Image positioned right and vertically centered (80% size, flush right) --- */
         #chat-fixed-bg {
             position: absolute; 
             top: 50%; /* Center vertically */
-            right: 0; /* NEW: Anchor flush against the right edge */
+            right: 0; /* NEW: Anchors flush against the right edge */
             transform: translateY(-50%); /* Adjust for perfect vertical centering */
             width: 80%;    
             height: 80%;   
-            object-fit: contain; 
+            object-fit: cover; /* Ensures the 80% box is filled by the image, touching the edge */
             opacity: 0.55; 
             pointer-events: none;
             z-index: 1; 
