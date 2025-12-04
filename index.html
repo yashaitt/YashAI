@@ -173,38 +173,50 @@
         40% { opacity: 1; transform: scale(1); }
     }
 
-    /* Right-side AI image inside chatbox (GitHub and UI safe) */
-    #response-area {
-        position: relative;
-        overflow: hidden;
-    }
-
-    #response-area::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 50%;
-        height: 100%;
-        background: url('./ai_bg.png') right center/contain no-repeat;
-        opacity: 0.60;
-        pointer-events: none;
-        z-index: 0;
-    }
-/* Make the chat background layer sit behind */
-#response-area::before {
-    z-index: -1 !important;
+/* ===== FINAL: Right-side half-image inside chat box (visible + behind text) ===== */
+#response-area {
+    position: relative;   /* needed for pseudo-element positioning */
+    overflow: hidden;     /* prevents image from affecting layout */
 }
 
-/* Make ALL chat messages sit above EVERYTHING */
-.response-message,
-.user-message,
+/* Image layer: sits above the container background but below content */
+#response-area::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;                     /* right side */
+    width: 50%;                   /* show half the image (right half) */
+    height: 100%;
+    background-image: url('./ai_bg.png');
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.65;
+    pointer-events: none;
+    z-index: 0;                   /* below content in same stacking context */
+}
+
+/* Ensure the main chat container creates a predictable stacking context */
+.chat-container, .chat-container-wrapper {
+    position: relative; /* many frameworks have transforms that create stacking contexts; ensure we have position for z-index */
+    z-index: 1;
+}
+
+/* Chat content must be above the image */
 #response-area > * {
-    position: relative !important;
-    z-index: 10 !important;
+    position: relative;
+    z-index: 2;
 }
 
-
+/* Extra: ensure common message bubble classes are above too */
+#response-area .markdown-content,
+#response-area .ai-bubble-interactive,
+#response-area .bg-indigo-50,
+#response-area .bg-white,
+#response-area .bg-indigo-500 {
+    position: relative;
+    z-index: 2;
+}
 
 </style>
 
@@ -530,6 +542,7 @@ Attribute all help only to **Yash AI**.
 </body>
 
 </html>
+
 
 
 
