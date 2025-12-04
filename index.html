@@ -168,6 +168,32 @@
             0%, 80%, 100% { opacity: 0; transform: scale(0.8); }
             40% { opacity: 1; transform: scale(1); }
         }
+           @keyframes dot-flicker {
+        0%, 80%, 100% { opacity: 0; transform: scale(0.8); }
+        40% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Right-side AI image inside chatbox (GitHub and UI safe) */
+    #response-area {
+        position: relative;
+        overflow: hidden;
+    }
+
+    #response-area::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background: url('./ai_bg.png') right center/contain no-repeat;
+        opacity: 0.65;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+</style>
+
     </style>
 </head>
 <body class="flex items-center justify-start p-4">
@@ -490,6 +516,7 @@ Attribute all help only to **Yash AI**.
 </body>
 
 </html>
+
 
 
 
