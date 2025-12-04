@@ -42,18 +42,18 @@
             z-index: 0;
         }
 
-        /* --- FIXED: AI Image Size in Chat Box (80% and Centered) --- */
+        /* --- FIXED: AI Image positioned right and vertically centered (80% size) --- */
         #chat-fixed-bg {
             position: absolute; 
             top: 50%; /* Center vertically */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Adjust for perfect centering */
-            width: 80%;    /* NEW: Set width to 80% of container */
-            height: 80%;   /* NEW: Set height to 80% of container */
-            object-fit: contain; /* Ensures the whole image fits within 80% bounds without cropping */
-            opacity: 0.55; /* 55% visibility */
+            right: 0; /* Anchor to the right edge */
+            transform: translateY(-50%); /* Adjust for perfect vertical centering */
+            width: 80%;    
+            height: 80%;   
+            object-fit: contain; 
+            opacity: 0.55; 
             pointer-events: none;
-            z-index: 1; /* Lowest functional layer */
+            z-index: 1; 
         }
         
         /* The container for the chat history must be relative */
@@ -73,7 +73,7 @@
         /* The message area needs a background color set to transparent so the image shows through */
         #response-area {
             position: relative;
-            z-index: 5; /* Ensures chat messages are above the image */
+            z-index: 5; 
             background-color: transparent !important; 
         }
 
