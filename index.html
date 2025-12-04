@@ -191,11 +191,19 @@
         pointer-events: none;
         z-index: 0;
     }
-/* Ensure chat messages appear ABOVE the background image */
-#response-area * {
-    position: relative;
-    z-index: -1;
+/* Make the chat background layer sit behind */
+#response-area::before {
+    z-index: -1 !important;
 }
+
+/* Make ALL chat messages sit above EVERYTHING */
+.response-message,
+.user-message,
+#response-area > * {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
 
 
 </style>
@@ -522,6 +530,7 @@ Attribute all help only to **Yash AI**.
 </body>
 
 </html>
+
 
 
 
