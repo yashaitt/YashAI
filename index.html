@@ -174,48 +174,34 @@
     }
 
 /* ===== FINAL: Right-side half-image inside chat box (visible + behind text) ===== */
-#response-area {
-    position: relative;   /* needed for pseudo-element positioning */
-    overflow: hidden;     /* prevents image from affecting layout */
-}
-
-/* Image layer: sits above the container background but below content */
-#response-area::after {
-    content: "";
+     /* FIXED RIGHT-SIDE IMAGE THAT DOES NOT MOVE WITH CHAT */
+#chat-fixed-bg {
     position: absolute;
     top: 0;
-    right: 0;                     /* right side */
-    width: 50%;                   /* show half the image (right half) */
+    right: 0;
+    width: 50%;
     height: 100%;
-    background-image: url('./ai_bg.png');
-    background-position: right center;
-    background-repeat: no-repeat;
-    background-size: contain;
+    object-fit: contain;
     opacity: 0.65;
     pointer-events: none;
-    z-index: 0;                   /* below content in same stacking context */
+    z-index: 0;
 }
 
-/* Ensure the main chat container creates a predictable stacking context */
-.chat-container, .chat-container-wrapper {
-    position: relative; /* many frameworks have transforms that create stacking contexts; ensure we have position for z-index */
-    z-index: 1;
+/* ENSURE CHAT MESSAGES STAY ABOVE THE IMAGE */
+#response-area {
+    position: relative;
+    z-index: 5;
 }
 
-/* Chat content must be above the image */
 #response-area > * {
     position: relative;
-    z-index: 2;
+    z-index: 10;
 }
 
-/* Extra: ensure common message bubble classes are above too */
-#response-area .markdown-content,
-#response-area .ai-bubble-interactive,
-#response-area .bg-indigo-50,
-#response-area .bg-white,
-#response-area .bg-indigo-500 {
+/* ENSURE OUTER CHAT WRAPPERS ALLOW ABSOLUTE POSITIONING */
+.chat-container-wrapper,
+.chat-container {
     position: relative;
-    z-index: 2;
 }
 
 </style>
@@ -235,6 +221,7 @@
                 </h1>
                 <span class="text-sm font-medium opacity-80 mt-1">Made by Yash Dubey</span>
             </header>
+       <img id="chat-fixed-bg" src="./ai_bg.png" alt="">
 
             <div id="response-area" class="response-area flex-1 p-4 sm:p-6 overflow-y-auto space-y-6 bg-gray-100">
                 <div class="flex justify-start message-fade-in">
@@ -542,6 +529,7 @@ Attribute all help only to **Yash AI**.
 </body>
 
 </html>
+
 
 
 
