@@ -43,24 +43,35 @@
             z-index: 0;
         }
 
-        /* --- NEW/RESTORED: AI Image inside Chat Box Background --- */
+        /* --- FIXED: AI Image inside Chat Box Background --- */
         #chat-fixed-bg {
-            position: absolute; /* Positioned relative to the chat-container */
-            bottom: 0;
-            right: 0;
+            position: absolute; 
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.65; /* 65% visibility */
+            opacity: 0.60; /* Set to 60% visibility as requested */
             pointer-events: none;
             z-index: 1; /* Ensures it is behind the chat messages */
         }
-        /* Message area z-index to ensure messages are on top of the image */
-        #response-area {
-            position: relative;
-            z-index: 5; 
+        
+        /* The container for the chat history must be relative */
+        .chat-container {
+            position: relative; 
+            height: 90vh; 
+            max-height: 850px;
+            overflow: hidden; 
         }
 
+        /* The message area needs a background color for the text to be legible over the image */
+        #response-area {
+            position: relative;
+            z-index: 5; /* Ensures chat messages are above the image (z-index 1) */
+            /* Crucial change: Set background color to transparent so the image shows through */
+            background-color: transparent !important; 
+        }
+        
         /* Header Title Styling and Animation */
         .header-title-anim {
             font-family: 'Poppins', sans-serif;
@@ -95,13 +106,6 @@
         .send-button-bg:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(79, 70, 229, 0.5);
-        }
-        .chat-container {
-            /* Crucial: set to relative for absolute children (#chat-fixed-bg) */
-            position: relative; 
-            height: 90vh; 
-            max-height: 850px;
-            overflow: hidden; 
         }
 
         /* AI Message Bubble Hover */
@@ -222,7 +226,7 @@
     </div>
     
     <script>
-        // --- Gemini API Configuration --- 
+        // --- Code Snippets (kept for functionality) --- 
         const MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
         const API_URL_BASE = "https://yashai.yashdub2007.workers.dev"; 
 
