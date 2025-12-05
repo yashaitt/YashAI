@@ -42,7 +42,7 @@
             z-index: 0;
         }
 
-        /* --- FINAL FIX: Image positioned FLUSH RIGHT and vertically centered (80% size) --- */
+        /* --- BACKGROUND IMAGE CONFIGURATION (KEPT AS PREFERRED) --- */
         #chat-fixed-bg {
             position: absolute; 
             top: 50%; /* Center vertically */
@@ -87,7 +87,8 @@
         /* Header Title Styling and Animation */
         .header-title-anim {
             font-family: 'Poppins', sans-serif;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+            /* Applies the text shadow/glow effect */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); 
             animation: text-pulse 3s infinite ease-in-out;
         }
         @keyframes text-pulse {
@@ -95,7 +96,7 @@
             50% { transform: scale(1.01); opacity: 0.95; }
         }
 
-        /* Chat Container Setup */
+        /* Chat Container Setup (KEPT) */
         .chat-container-wrapper {
             width: 100%;
             max-width: 520px;
@@ -120,7 +121,7 @@
             box-shadow: 0 6px 15px rgba(79, 70, 229, 0.5);
         }
 
-        /* AI Message Bubble Hover */
+        /* AI Message Bubble Hover (KEPT) */
         .ai-bubble-interactive {
             transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s;
         }
@@ -130,7 +131,7 @@
             background-color: #fcfdff;
         }
 
-        /* Smooth input focus */
+        /* Smooth input focus (KEPT) */
         #user-input {
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -140,7 +141,7 @@
             outline: none;
         }
 
-        /* Message Bubble Transitions */
+        /* Message Bubble Transitions (KEPT) */
         .message-fade-in {
             animation: fadeIn 0.4s ease-out;
         }
@@ -149,7 +150,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Style for Markdown content */
+        /* Style for Markdown content (KEPT) */
         .markdown-content h2 {
             font-weight: 800;
             margin-top: 1.25rem;
@@ -168,7 +169,7 @@
             word-wrap: break-word;
         }
 
-        /* Typing Dots Animation */
+        /* Typing Dots Animation (KEPT) */
         .dot {
             display: inline-block;
             width: 8px;
@@ -186,6 +187,18 @@
             40% { opacity: 1; transform: scale(1); }
         }
 
+        /* New Logo Specific Styling to match glow */
+        .logo-yd-pulse {
+            /* Inherits the pulsating effect from the parent */
+            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+            animation: logo-glow-pulse 3s infinite ease-in-out;
+        }
+        /* Custom pulse for the logo to avoid conflict with text pulse */
+        @keyframes logo-glow-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); }
+            50% { transform: scale(1.05); opacity: 0.9; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9)); }
+        }
+
     </style>
 </head>
 <body class="flex items-center justify-center p-4">
@@ -196,9 +209,27 @@
 
             <header class="header-gradient text-white p-4 sm:p-5 flex flex-col items-center justify-center shadow-lg">
                 <h1 class="text-3xl font-extrabold tracking-tight flex items-center header-title-anim">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-7 h-7 mr-2 animate-pulse">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5v-7.5m-6 7.5a6 6 0 0 1 6-6v-1.5m-6 7.5h12" />
-                    </svg> 
+                    <svg class="w-7 h-7 mr-2 logo-yd-pulse" viewBox="0 0 200 200" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="yd-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ffff;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#9d00ff;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#4f46e5;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="100,0 186.6,50 186.6,150 100,200 13.4,150 13.4,50" style="fill:none;stroke:url(#yd-gradient);stroke-width:8;"/>
+                        
+                        <path d="M186.6 50 L160 50 M186.6 150 L160 150 M13.4 50 L40 50 M13.4 150 L40 150" style="stroke:url(#yd-gradient);stroke-width:3;"/>
+                        
+                        <g transform="translate(10, 20)">
+                            <path d="M60 40 L60 80 L30 80 L30 150 L90 150 L90 80 L60 80 Z" fill="url(#yd-gradient)"/>
+                            
+                            <path d="M100 40 L100 150 L150 150 C165 150 170 140 170 95 C170 50 165 40 150 40 Z M120 60 L120 130 L140 130 C150 130 150 120 150 95 C150 70 150 60 140 60 Z" fill="url(#yd-gradient)"/>
+                        </g>
+
+                        <circle cx="20" cy="50" r="3" fill="url(#yd-gradient)"/>
+                        <circle cx="180" cy="50" r="3" fill="url(#yd-gradient)"/>
+                    </svg>
                     Yash AI
                 </h1>
                 <span class="text-sm font-medium opacity-80 mt-1">Made by Yash Dubey</span>
@@ -256,9 +287,7 @@ If the user asks about:
 - who made you 
 - who built you 
 - your owner / developer 
-→ Then reply ONLY with this message translated into the user's language: "All about my creator: 
-**Give him a problem, and he’ll solve it like Stark: brilliantly, effortlessly, and with style.** 
-The **Genius Billionaire Sophisticate Sanatani** who created me. His name is **YASH DUBEY** — a student from Mirzapur, UP, completing his education at Daffodils Public School." 
+→ Then reply ONLY with this message translated into the user's language: "All about my creator: **Give him a problem, and he’ll solve it like Stark: brilliantly, effortlessly, and with style.** The **Genius Billionaire Sophisticate Sanatani** who created me. His name is **YASH DUBEY** — a student from Mirzapur, UP, completing his education at Daffodils Public School." 
 ⚠️ You MUST translate the above text into the user's language while keeping bold text and tone. 
 ------------------------------- 
 ⚙️ HOW YOU WERE MADE RULE 
@@ -486,4 +515,3 @@ If the user asks:
     </script>
 </body>
 </html>
-
